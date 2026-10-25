@@ -14,8 +14,11 @@ class Settings:
     AUTHORITY_SECRET_KEY: str = os.getenv("AUTHORITY_SECRET_KEY", "railrakshak_authority_secret_demo_2026")
     AUTHORITY_DEMO_PASSWORD: str = os.getenv("AUTHORITY_DEMO_PASSWORD", "ControlRoom@2026")
     
-    # Parse comma-separated CORS origins
-    _cors_raw: str = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173,http://localhost:3000")
-    CORS_ORIGINS: List[str] = [origin.strip() for origin in _cors_raw.split(",") if origin.strip()]
+    # Parse comma-separated CORS origins (defaults to '*' so deployed frontend on Render can communicate)
+    _cors_raw: str = os.getenv("CORS_ORIGINS", "*")
+    if _cors_raw.strip() == "*":
+        CORS_ORIGINS: List[str] = ["*"]
+    else:
+        CORS_ORIGINS: List[str] = [origin.strip() for origin in _cors_raw.split(",") if origin.strip()]
 
 settings = Settings()

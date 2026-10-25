@@ -10,7 +10,12 @@ import {
   SystemHealthResponse
 } from '../types';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+const rawApiBase = (import.meta.env.VITE_API_BASE_URL || '').trim();
+const API_BASE = rawApiBase
+  ? rawApiBase.startsWith('http')
+    ? rawApiBase.replace(/\/+$/, '')
+    : `https://${rawApiBase.replace(/\/+$/, '')}`
+  : '';
 
 export class ApiError extends Error {
   status: number;
