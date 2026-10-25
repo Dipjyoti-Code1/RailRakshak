@@ -488,7 +488,7 @@ class DatabaseManager:
                         "assistance_needs": "Self"
                     },
                     "category": "UNWELL",
-                    "status": "DISPATCHED",
+                    "status": "IN_PROGRESS",
                     "description": "Passenger experienced sudden dizziness and acute respiratory tightness after departing Ghaziabad. First aid requested.",
                     "location": {
                         "latitude": 28.6692,
@@ -501,19 +501,22 @@ class DatabaseManager:
                     },
                     "status_history": [
                         {
-                            "status": "REPORTED",
+                            "from_status": "ACTIVE",
+                            "to_status": "ACTIVE",
                             "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
                             "updated_by": "Passenger Mobile SOS",
                             "notes": "Emergency alert transmitted from Coach C2 Seat 45"
                         },
                         {
-                            "status": "ACKNOWLEDGED",
+                            "from_status": "ACTIVE",
+                            "to_status": "ACKNOWLEDGED",
                             "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
                             "updated_by": "Control Room Operator",
                             "notes": "Distress verified. Medical emergency team on alert."
                         },
                         {
-                            "status": "DISPATCHED",
+                            "from_status": "ACKNOWLEDGED",
+                            "to_status": "IN_PROGRESS",
                             "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
                             "updated_by": "Central Operations",
                             "notes": "Escort Sub-Insp. Vikram Singh dispatched to Coach C2 with medical kit."
@@ -541,7 +544,7 @@ class DatabaseManager:
                         "assistance_needs": "Child vigilance"
                     },
                     "category": "LOST_OR_SEPARATED",
-                    "status": "ON_SCENE",
+                    "status": "ACKNOWLEDGED",
                     "description": "7-year-old child wandered towards pantry vestibule near Coach B4 while parent was at seat.",
                     "location": {
                         "latitude": 28.5823,
@@ -554,22 +557,18 @@ class DatabaseManager:
                     },
                     "status_history": [
                         {
-                            "status": "REPORTED",
+                            "from_status": "ACTIVE",
+                            "to_status": "ACTIVE",
                             "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
                             "updated_by": "Passenger Mobile SOS",
                             "notes": "Child separated notification sent by mother"
                         },
                         {
-                            "status": "DISPATCHED",
+                            "from_status": "ACTIVE",
+                            "to_status": "ACKNOWLEDGED",
                             "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
                             "updated_by": "Control Room",
                             "notes": "Head Constable Sunita Rao tasked to search B-coaches"
-                        },
-                        {
-                            "status": "ON_SCENE",
-                            "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
-                            "updated_by": "Head Constable Sunita Rao",
-                            "notes": "Child safely located in pantry corridor with TTE. Uniting with mother in B3."
                         }
                     ],
                     "is_demo": True,
@@ -594,7 +593,7 @@ class DatabaseManager:
                         "assistance_needs": "Wheelchair / Elderly Mobility"
                     },
                     "category": "URGENT_ASSISTANCE",
-                    "status": "REPORTED",
+                    "status": "ACTIVE",
                     "description": "Senior citizen traveler requests platform wheelchair and porter assistance upon arrival at Kanpur Central.",
                     "location": {
                         "latitude": 26.4538,
@@ -607,7 +606,8 @@ class DatabaseManager:
                     },
                     "status_history": [
                         {
-                            "status": "REPORTED",
+                            "from_status": "ACTIVE",
+                            "to_status": "ACTIVE",
                             "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
                             "updated_by": "Passenger Portal",
                             "notes": "Request for station deboarding wheelchair logged"

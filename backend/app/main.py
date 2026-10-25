@@ -73,11 +73,33 @@ app.include_router(journeys.router)
 app.include_router(incidents.router)
 app.include_router(officers.router)
 
-@app.get("/")
-def root():
-    return {
-        "project": "RailRakshak",
-        "tagline": "Your Journey. Your Safety.",
-        "docs": "/docs",
-        "health": "/api/health"
-    }
+# Mount frontend/dist if built (enables seamless single-service fullstack deployment on Render)
+import os
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
+frontend_dist = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "frontend", "dist"))
+
+if os.path.exists(frontend_dist) and os.path.exists(os.path.join(frontend_dist, "index.html")):
+    assets_dir = os.path.join(frontend_dist, "assets")
+    if os.path.exists(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
+    @app.get("/{full_path:path}")
+    async def serve_spa(full_path: str):
+        # Don't intercept API routes
+        if full_path.startswith("api/") or full_path.startswith("docs") or full_path.startswith("openapi.json"):
+            return JSONResponse(status_code=404, content={"detail": "Not Found"})
+        target_file = os.path.join(frontend_dist, full_path)
+        if os.path.isfile(target_file):
+            return FileResponse(target_file)
+        return FileResponse(os.path.join(frontend_dist, "index.html"))
+else:
+    @app.get("/")
+    def root():
+        return {
+            "project": "RailRakshak",
+            "tagline": "Your Journey. Your Safety.",
+            "docs": "/docs",
+            "health": "/api/health"
+        }

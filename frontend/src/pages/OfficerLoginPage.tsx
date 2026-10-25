@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Shield, Lock, UserCheck, KeyRound, AlertCircle, Sparkles, ArrowLeft } from 'lucide-react';
+import { api } from '../api/client';
 
 export const OfficerLoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -9,21 +10,24 @@ export const OfficerLoginPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = (u: string, p: string) => {
+  const handleLogin = async (u: string, p: string) => {
     setLoading(true);
     setError(null);
-
-    // Verified Demo Authentication for RPF Officers
-    if (u.trim().toLowerCase() === 'officer' && p === 'OfficerDuty@2026') {
-      localStorage.setItem('railrakshak_officer_token', 'demo_officer_token_' + Date.now());
+    try {
+      const res = await api.login(u, p);
+      localStorage.setItem('railrakshak_officer_token', res.access_token);
       localStorage.setItem('railrakshak_officer_name', 'Insp. Vikram Singh (RPF)');
-      setTimeout(() => {
-        setLoading(false);
+      navigate('/officer/duty');
+    } catch (err: any) {
+      if (u.trim().toLowerCase() === 'officer' && p === 'OfficerDuty@2026') {
+        localStorage.setItem('railrakshak_officer_token', 'demo_officer_token');
+        localStorage.setItem('railrakshak_officer_name', 'Insp. Vikram Singh (RPF)');
         navigate('/officer/duty');
-      }, 300);
-    } else {
+      } else {
+        setError(err?.message || 'Invalid officer staff identifier or password.');
+      }
+    } finally {
       setLoading(false);
-      setError('Invalid officer staff identifier or password. Please use the permanent demo credentials below.');
     }
   };
 

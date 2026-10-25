@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Shield, Lock, User, KeyRound, AlertCircle, Sparkles, ArrowLeft } from 'lucide-react';
+import { api } from '../api/client';
 
 export const AuthorityLoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -9,36 +10,36 @@ export const AuthorityLoginPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
+  const performLogin = async (u: string, p: string) => {
     setLoading(true);
     setError(null);
-
-    // Verified Demo Authentication for Authority Console
-    if (username.trim().toLowerCase() === 'admin' && password === 'ControlRoom@2026') {
-      localStorage.setItem('railrakshak_auth_token', 'demo_authority_token_' + Date.now());
+    try {
+      const res = await api.login(u, p);
+      localStorage.setItem('railrakshak_auth_token', res.access_token);
       localStorage.setItem('railrakshak_authority_user', 'Central Ops Dispatcher');
-      setTimeout(() => {
-        setLoading(false);
+      navigate('/authority');
+    } catch (err: any) {
+      if (u.trim().toLowerCase() === 'admin' && p === 'ControlRoom@2026') {
+        localStorage.setItem('railrakshak_auth_token', 'demo_authority_token');
+        localStorage.setItem('railrakshak_authority_user', 'Central Ops Dispatcher');
         navigate('/authority');
-      }, 300);
-    } else {
+      } else {
+        setError(err?.message || 'Invalid control room credentials. Use admin / ControlRoom@2026.');
+      }
+    } finally {
       setLoading(false);
-      setError('Invalid control room authority credentials. Please use the permanent demo credentials below.');
     }
+  };
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    performLogin(username, password);
   };
 
   const handleQuickDemoLogin = () => {
     setUsername('admin');
     setPassword('ControlRoom@2026');
-    setLoading(true);
-    setError(null);
-    localStorage.setItem('railrakshak_auth_token', 'demo_authority_token_' + Date.now());
-    localStorage.setItem('railrakshak_authority_user', 'Central Ops Dispatcher');
-    setTimeout(() => {
-      setLoading(false);
-      navigate('/authority');
-    }, 300);
+    performLogin('admin', 'ControlRoom@2026');
   };
 
   return (

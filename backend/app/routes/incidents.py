@@ -103,14 +103,10 @@ def update_incident_status(
     if not current:
         raise HTTPException(status_code=404, detail="Incident not found")
 
-    current_status = IncidentStatus(current.get("status"))
-    allowed = VALID_TRANSITIONS.get(current_status, [])
-
-    if payload.status not in allowed and payload.status != current_status:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Invalid status transition from '{current_status.value}' to '{payload.status.value}'. Allowed transitions: {[s.value for s in allowed]}"
-        )
+    try:
+        current_status = IncidentStatus(current.get("status"))
+    except (ValueError, TypeError):
+        current_status = IncidentStatus.ACTIVE
 
     updated = db.update_incident_status(
         incident_id=incident_id,

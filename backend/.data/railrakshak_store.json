@@ -851,7 +851,7 @@
       },
       "is_demo": false,
       "incident_id": "RR-INC-2026-0031",
-      "status": "ACTIVE",
+      "status": "RESOLVED",
       "status_history": [
         {
           "from_status": "ACTIVE",
@@ -859,6 +859,27 @@
           "timestamp": "2026-10-25T02:08:56.816303+00:00Z",
           "updated_by": "Passenger (SOS Trigger)",
           "notes": "Emergency distress alert initiated by passenger. Category: UNWELL"
+        },
+        {
+          "from_status": "ACTIVE",
+          "to_status": "ACKNOWLEDGED",
+          "timestamp": "2026-10-25T11:08:07.378238+00:00Z",
+          "updated_by": "Authority Officer",
+          "notes": "Test status update with real token"
+        },
+        {
+          "from_status": "ACKNOWLEDGED",
+          "to_status": "IN_PROGRESS",
+          "timestamp": "2026-10-25T11:08:07.390481+00:00Z",
+          "updated_by": "Authority Officer",
+          "notes": "Test with demo token format"
+        },
+        {
+          "from_status": "IN_PROGRESS",
+          "to_status": "RESOLVED",
+          "timestamp": "2026-10-25T11:08:07.402044+00:00Z",
+          "updated_by": "Authority Officer",
+          "notes": "Test officer resolve"
         }
       ],
       "journey_snapshot": {
@@ -878,7 +899,7 @@
         }
       },
       "created_at": "2026-10-25T02:08:56.816303+00:00Z",
-      "updated_at": "2026-10-25T02:08:56.816303+00:00Z"
+      "updated_at": "2026-10-25T11:08:07.402044+00:00Z"
     },
     {
       "journey_id": "RR-JRN-2026-0012",
