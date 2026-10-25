@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="shieldGrad" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2D7A4B" />
+      <stop offset="100%" stop-color="#1F4E34" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="16" y1="24" x2="48" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FDE68A" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+  </defs>
+  <!-- Shield Body -->
+  <path d="M32 4L8 14v18c0 14 10.5 24.5 24 28 13.5-3.5 24-14 24-28V14L32 4z"
+        fill="url(#shieldGrad)" stroke="#163826" stroke-width="1.2"/>
+  <!-- Gentle Inner Glow -->
+  <path d="M32 8L12 16.5v15.5c0 11.5 8.5 20.5 20 23.5 11.5-3 20-12 20-23.5V16.5L32 8z"
+        fill="#FFFFFF" opacity="0.12"/>
+  <!-- Horizontal Rail Bars in pure white -->
+  <rect x="16" y="26" width="32" height="3.5" rx="1.75" fill="#FFFFFF"/>
+  <rect x="16" y="34" width="32" height="3.5" rx="1.75" fill="#FFFFFF"/>
+  <!-- Cross Sleepers in warm golden amber -->
+  <rect x="20" y="24" width="3" height="15" rx="1.5" fill="url(#goldGrad)"/>
+  <rect x="30.5" y="24" width="3" height="15" rx="1.5" fill="url(#goldGrad)"/>
+  <rect x="41" y="24" width="3" height="15" rx="1.5" fill="url(#goldGrad)"/>
+</svg>
